@@ -103,9 +103,10 @@ export const DEFAULT_CHECKS: CheckerFunction[] = [
   securityChecks.checkMissingDirectives,
   securityChecks.checkScriptAllowlistBypass,
   securityChecks.checkFlashObjectAllowlistBypass, securityChecks.checkIpSource,
-  securityChecks.checkNonceLength, securityChecks.checkSrcHttp,
-  securityChecks.checkDeprecatedDirective, parserChecks.checkUnknownDirective,
-  parserChecks.checkMissingSemicolon, parserChecks.checkInvalidKeyword
+  securityChecks.checkInvalidURL, securityChecks.checkNonceLength,
+  securityChecks.checkSrcHttp, securityChecks.checkDeprecatedDirective,
+  parserChecks.checkUnknownDirective, parserChecks.checkMissingSemicolon,
+  parserChecks.checkInvalidKeyword
 ];
 
 

@@ -398,6 +398,37 @@ export function looksLikeIpAddress(maybeIp: string): boolean {
 }
 
 /**
+ * Checks if csp contains invalid URL (that starts with a dot).
+ * Findings of this check are informal only and are FP free.
+ *
+ * Example policy where this check would trigger:
+ *  script-src .abc.com
+ *
+ * @param parsedCsp Parsed CSP.
+ */
+export function checkInvalidURL(parsedCsp: Csp): Finding[] {
+  const violations: Finding[] = [];
+
+  // Function for checking if directive values contain invalid URLs.
+  const checkURLStartsWithDot = (directive: string, directiveValues: string[]) => {
+    for (const value of directiveValues) {
+      const schemeFreeUrl = utils.getSchemeFreeUrl(value);
+      if (schemeFreeUrl.startsWith('.')) {
+        violations.push(new Finding(
+          Type.URL_INVALID_STARTS_WITH_DOT,
+          directive + ' directive has an invalid URL that starts with a dot: ' + schemeFreeUrl +
+              ' (will be ignored by browsers!). ',
+          Severity.INFO, directive, value));
+      }
+    }
+  };
+
+  // Apply check to values of all directives.
+  utils.applyCheckFunktionToDirectives(parsedCsp, checkURLStartsWithDot);
+  return violations;
+}
+
+/**
  * Checks if csp contains IP addresses.
  * Findings of this check are informal only and are FP free.
  *

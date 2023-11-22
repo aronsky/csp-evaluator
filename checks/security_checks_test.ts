@@ -341,7 +341,17 @@
      expect(violations[0].description)
          .toBe('Can you restrict object-src to \'none\' only?');
    });
- 
+
+   /** Tests for csp.securityChecks.checkInvalidURL */
+   it('CheckInvalidURL', () => {
+    const test =
+        'script-src .abc.com; font-src //.host.com https://.with.scheme.com valid.url.com';
+
+    const violations = checkCsp(test, securityChecks.checkInvalidURL);
+    expect(violations.length).toBe(3);
+    expect(violations.every((v) => v.severity === Severity.INFO)).toBeTrue();
+  });
+
    /** Tests for csp.securityChecks.checkIpSource */
    it('CheckIpSource', () => {
      const test =

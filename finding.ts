@@ -98,6 +98,7 @@ export enum Type {
   IP_SOURCE,
   DEPRECATED_DIRECTIVE,
   SRC_HTTP,
+  URL_INVALID_STARTS_WITH_DOT,
 
   // Strict dynamic and backward compatibility checks
   STRICT_DYNAMIC = 400,
